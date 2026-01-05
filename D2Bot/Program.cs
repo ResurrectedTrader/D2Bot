@@ -7,7 +7,6 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Security.Principal;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -95,19 +94,62 @@ public static class Program
 	[STAThread]
 	private static void Main()
 	{
-		if (!AdminRelauncher())
+		string d2bsPath = Application.StartupPath + "\\d2bs\\";
+		if (!Directory.Exists(d2bsPath))
 		{
+			MessageBox.Show("D2BS Folder is missing!\n\nPlease create a d2bs folder with:\n- d2bs.ini\n- A botting library folder (e.g., kolbot)", "Missing d2bs folder", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			return;
 		}
-		string[] directories = Directory.GetDirectories(Application.StartupPath + "\\d2bs\\", "*bot");
-		if (directories.Length != 0)
+
+		string[] directories = Directory.GetDirectories(d2bsPath, "*bot");
+		if (directories.Length == 0)
 		{
-			BOT_LIB = directories[0];
+			MessageBox.Show("D2BS Folder is missing botting library!\n\nAdd a botting library folder (e.g., kolbot) to the d2bs folder.", "Missing botting library", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			return;
 		}
-		else
+		BOT_LIB = directories[0];
+
+		if (!File.Exists(Application.StartupPath + D2BS_INI))
 		{
-			MessageBox.Show("D2BS Folder is missing botting library! Add a botting lib!");
+			MessageBox.Show("D2BS configuration file missing!\n\nPlease create: d2bs\\d2bs.ini", "Missing d2bs.ini", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			return;
 		}
+
+		// Ensure required directories exist
+		string dataPath = Application.StartupPath + "\\data";
+		string logsPath = Application.StartupPath + "\\logs";
+		string webPath = BOT_LIB + "\\data\\web";
+
+		if (!Directory.Exists(dataPath))
+		{
+			try { Directory.CreateDirectory(dataPath); }
+			catch (Exception ex)
+			{
+				MessageBox.Show($"Failed to create data directory:\n{dataPath}\n\n{ex.Message}", "Directory Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+		}
+
+		if (!Directory.Exists(logsPath))
+		{
+			try { Directory.CreateDirectory(logsPath); }
+			catch (Exception ex)
+			{
+				MessageBox.Show($"Failed to create logs directory:\n{logsPath}\n\n{ex.Message}", "Directory Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+		}
+
+		if (!Directory.Exists(webPath))
+		{
+			try { Directory.CreateDirectory(webPath); }
+			catch (Exception ex)
+			{
+				MessageBox.Show($"Failed to create web data directory:\n{webPath}\n\n{ex.Message}", "Directory Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+		}
+
 		try
 		{
 			Application.EnableVisualStyles();
@@ -146,35 +188,6 @@ public static class Program
 				WS.Stop();
 			}
 		}
-	}
-
-	private static bool AdminRelauncher()
-	{
-		if (!IsRunAsAdmin())
-		{
-			ProcessStartInfo startInfo = new ProcessStartInfo
-			{
-				UseShellExecute = true,
-				WorkingDirectory = Environment.CurrentDirectory,
-				FileName = Assembly.GetEntryAssembly().CodeBase,
-				Verb = "runas"
-			};
-			try
-			{
-				Process.Start(startInfo);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine("This program must be run as an administrator! \n\n" + ex.ToString());
-			}
-			return false;
-		}
-		return true;
-	}
-
-	private static bool IsRunAsAdmin()
-	{
-		return new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
 	}
 
 	private static bool IsValidURL(string url)
@@ -230,10 +243,6 @@ public static class Program
 		//IL_0170: Unknown result type (might be due to invalid IL or missing references)
 		//IL_0179: Expected O, but got Unknown
 		CurrentProfile = Application.StartupPath + file;
-		if (!File.Exists(Application.StartupPath + "\\d2bs\\d2bs.ini"))
-		{
-			throw new Exception("D2BS Folder is missing file: d2bs.ini");
-		}
 		if (!File.Exists(Application.StartupPath + "\\logs\\keyinfo.log"))
 		{
 			File.Create(Application.StartupPath + "\\logs\\keyinfo.log").Close();

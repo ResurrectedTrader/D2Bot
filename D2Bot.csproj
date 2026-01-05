@@ -15,7 +15,6 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>app.ico</ApplicationIcon>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
     <RootNamespace />
   </PropertyGroup>
   <ItemGroup>
