@@ -670,6 +670,7 @@ public static class Program
 		};
 		bool flag = File.Exists(Application.StartupPath + "\\D2BS\\D2M.dll");
 		client.D2Process = Kernel32.StartSuspended(client.D2Process, startInfo);
+		DACOverwrite.OverwriteDac(client);
 		try
 		{
 			if (flag)
