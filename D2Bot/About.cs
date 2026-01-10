@@ -149,7 +149,7 @@ public class About : Form
 		this.linkLabel4.Size = new System.Drawing.Size(171, 17);
 		this.linkLabel4.TabIndex = 14;
 		this.linkLabel4.TabStop = true;
-		this.linkLabel4.Text = "https://discord.gg/FuBG8N2";
+		this.linkLabel4.Text = "https://discord.gg/z844XRhxFC";
 		this.linkLabel4.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(About_LinkClicked);
 		this.label3.AutoSize = true;
 		this.label3.Font = new System.Drawing.Font("Segoe UI", 9.75f, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
@@ -172,7 +172,7 @@ public class About : Form
 		this.linkLabel2.Size = new System.Drawing.Size(266, 17);
 		this.linkLabel2.TabIndex = 11;
 		this.linkLabel2.TabStop = true;
-		this.linkLabel2.Text = "https://github.com/kolton/d2bot-with-kolbot";
+		this.linkLabel2.Text = "https://github.com/blizzhackers/kolbot";
 		this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(About_LinkClicked);
 		this.label1.AutoSize = true;
 		this.label1.Location = new System.Drawing.Point(15, 107);
