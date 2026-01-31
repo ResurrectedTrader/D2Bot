@@ -10,7 +10,7 @@ public class PrintMessage
 
 	public int color { get; set; }
 
-	public PrintMessage(string message, string tooltip = "", string trigger = "", int color = 0)
+	public PrintMessage(string message, string tooltip = "")
 	{
 		msg = message;
 		this.tooltip = tooltip;
